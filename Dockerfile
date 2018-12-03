@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM nginx:1.15.0
 
 ENV NGINX_VERSION     "1.15.0"
 ENV NGINX_VTS_VERSION "0.1.18"
