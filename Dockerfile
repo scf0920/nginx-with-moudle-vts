@@ -1,6 +1,6 @@
-FROM nginx:1.15.0
+FROM nginx:1.14.2
 
-ENV NGINX_VERSION     "1.15.0"
+ENV NGINX_VERSION     "1.14.2"
 ENV NGINX_VTS_VERSION "0.1.18"
 
 RUN apt-get update && \
@@ -10,7 +10,7 @@ RUN apt-get update && \
     git clone git://github.com/vozlt/nginx-module-vts.git && \
     tar zxvf nginx-${NGINX_VERSION}.tar.gz && \
     cd nginx-${NGINX_VERSION} && \
-    ./configure --add-module=/tmp/nginx-module-vts && \
+    sed -i -r -e "s/\.\/configure(.*)/.\/configure\1 --add-module=\/tmp\/nginx-module-vts-${NGINX_VTS_VERSION}/" /tmp/nginx-${NGINX_VERSION}/debian/rules && \
     make && make install && \
     cp -f objs/nginx /usr/sbin/nginx && \
     apt-get remove --purge -y git wget && apt-get -y --purge autoremove && rm -rf /var/lib/apt/lists/*
