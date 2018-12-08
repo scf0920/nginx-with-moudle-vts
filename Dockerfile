@@ -1,6 +1,6 @@
-FROM nginx:1.15.0
+FROM nginx:1.15.7
 
-ENV NGINX_VERSION     "1.15.0"
+ENV NGINX_VERSION     "1.15.7"
 ENV NGINX_VTS_VERSION "0.1.18"
 
 RUN apt-get update && \
@@ -25,6 +25,12 @@ RUN apt-get update && \
     --add-module=/tmp/nginx-module-vts && \
     make && make install && \
     cp -f objs/nginx /usr/sbin/nginx && \
-    apt-get remove --purge -y git wget && apt-get -y --purge autoremove && rm -rf /var/lib/apt/lists/*
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+COPY entrypoint.sh /tmp/entrypoint.sh
+
+RUN chmod +x /tmp/entrypoint.sh
+
+ENTRYPOINT ["/tmp/entrypoint.sh"]
 
 CMD ["nginx", "-g", "daemon off;"]
