@@ -27,10 +27,4 @@ RUN apt-get update && \
     cp -f objs/nginx /usr/sbin/nginx && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-COPY entrypoint.sh /tmp/entrypoint.sh
-
-RUN chmod +x /tmp/entrypoint.sh
-
-ENTRYPOINT ["/tmp/entrypoint.sh"]
-
 CMD ["nginx", "-g", "daemon off;"]
